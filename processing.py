@@ -5,6 +5,7 @@ def search_and_summarize(data, keyword=None, min_length=None):
     summary = {"total_results":0,
                "average_length":0,
                "longest_post":None}
+    
     result = []
     
     for post in data:
@@ -26,6 +27,7 @@ def search_and_summarize(data, keyword=None, min_length=None):
 
         avg_length = total_body_length /  total_results
         longest = max(result , key=lambda x:len(x ['body'])) 
+
     else:
         total_results = 0
         longest = None
@@ -35,6 +37,5 @@ def search_and_summarize(data, keyword=None, min_length=None):
     summary["total_results"] = total_results
     summary["average_length"] = avg_length
 
-    
     return summary
 

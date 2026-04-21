@@ -6,9 +6,6 @@ app = FastAPI()
 
 @app.get("/posts/summary")
 def get_summary(keyword: str = None, min_length: int = None):
-    data = fetch_data()
-   
-    result = search_and_summarize(data, keyword=keyword, min_length=min_length)
 
     try:
         data = fetch_data()
