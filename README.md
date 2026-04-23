@@ -2,123 +2,128 @@
 
 ## Overview
 
-A backend API built with FastAPI that fetches post data from an external source, applies conditional filtering, and returns summarized insights.
+A FastAPI backend project that fetches post data from an external API, filters it based on user input, and returns structured analytical summaries.
 
-This project demonstrates structured backend design, data processing, and API development.
+This project demonstrates backend development fundamentals including API design, data filtering pipelines, and basic analytics.
 
 ---
 
 ## Features
 
-- Fetches data from an external API  
-- Filters posts based on:
+- Fetches posts from an external API
+- Filters posts using:
+  - user_id (required)
   - keyword (optional)
-  - minimum length (optional)  
-- Computes:
-  - total results
+  - minimum length (optional)
+- Computes analytics:
+  - total posts
   - average post length
-  - longest post  
-- Exposes a REST API endpoint  
+  - longest post
+- Returns structured JSON response
+- Clean separation of data fetching, processing, and API layers
 
 ---
 
 ## How It Works
 
-Client → FastAPI → Data Layer → Processing Layer → Response  
+Client → FastAPI → Data Layer → Processing Layer → Response
 
-1. FastAPI receives query parameters  
-2. `data_layer.py` fetches raw post data  
-3. `processing.py` filters and analyzes the data  
-4. API returns structured JSON response  
+1. API receives request with parameters
+2. Data layer fetches raw posts
+3. Processing layer filters and analyzes data
+4. API returns structured JSON response
 
 ---
 
 ## API Endpoint
 
-`GET /posts/summary`
+GET /users/summary/{user_id}
 
 ---
 
 ## Query Parameters
 
-- `keyword` (optional): filters posts containing the word  
-- `min_length` (optional): filters posts by minimum body length  
+- user_id (required): ID of the user
+- keyword (optional): filter posts containing a specific word
+- min_length (optional): filter posts by minimum body length
 
 ---
 
 ## Example Request
 
-```
-/posts/summary?keyword=qui&min_length=100
-```
+/users/summary/1?keyword=qui&min_length=100
 
 ---
 
 ## Example Response
 
-```json
 {
-  "status": "success",
-  "data": {
-    "total_results": 48,
-    "average_length": 165.45,
-    "longest_post": {
-      "id": 69,
-      "userId": 7,
-      "title": "example",
-      "body": "..."
-    }
+  "user_id": 1,
+  "total_posts": 10,
+  "average_length": 145.32,
+  "longest_post": {
+    "id": 69,
+    "length": 250
   }
 }
-```
 
 ---
 
 ## Project Structure
 
-- `data_layer.py` → handles data fetching  
-- `processing.py` → filtering and summarization logic  
-- `api.py` → API layer  
+- api.py → FastAPI routes and endpoints
+- data_layer.py → Fetches external API data
+- processing.py → Filtering and analytics logic
 
 ---
 
 ## Design Decisions
 
-- Separation of concerns (data / logic / API)  
-- Optional query parameters for flexible filtering  
-- AND logic used when multiple filters are provided  
-- Clean JSON response structure  
+- Separation of concerns (API / logic / data)
+- Required vs optional parameter handling
+- Early filtering pipeline (user → keyword → length)
+- Early return for empty results
+- Clean and minimal JSON response structure
+
+---
+
+## Key Concepts Learned
+
+- FastAPI basics
+- REST API design
+- Query parameter handling
+- Data filtering pipelines
+- Functional decomposition
+- Backend architecture fundamentals
 
 ---
 
 ## Future Improvements
 
-- Add database (SQLite/PostgreSQL)  
-- Add user-based analytics  
-- Implement authentication  
-- Add pagination  
+- Add database (SQLite/PostgreSQL)
+- Add authentication (JWT)
+- Add pagination
+- Improve schema validation using Pydantic models
+- Deploy API (Render / Railway / AWS)
 
 ---
 
 ## Tech Stack
 
-- Python  
-- FastAPI  
-- Requests  
+- Python
+- FastAPI
+- Requests
+- Regex
 
 ---
 
 ## Run Locally
 
-```bash
 pip install -r requirements.txt
 uvicorn api:app --reload
-```
 
-Open:
-```
+Then open:
 http://127.0.0.1:8000/docs
-```
 
 ---
 
